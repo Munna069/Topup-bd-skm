@@ -1,0 +1,174 @@
+<!-- Updated HTML, optimized for AppGeyser -->
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ডায়মন্ড রেট লিস্ট এবং পেমেন্ট ফর্ম</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7fc;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    .container {
+      width: 90%;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h2, h3 {
+      color: #0073e6;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .rate-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 30px;
+    }
+    .rate-list li {
+      background-color: #f1f1f1;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+    .rate-list li:hover, .rate-list li.selected {
+      background-color: #0073e6;
+      color: white;
+    }
+    .form-section label {
+      display: block;
+      margin-top: 10px;
+    }
+    .form-section input, .form-section select, .form-section button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1em;
+    }
+    .form-section button {
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .form-section button:hover {
+      background-color: #005bb5;
+    }
+    .footer, .social-media-links {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .footer a, .social-media-links a {
+      display: inline-block;
+      margin: 8px;
+      text-decoration: none;
+      color: #0073e6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p style="text-align:center;color:red;">😓আপনাদের দেওয়া ইউআইডি যদি ভুল হয় তাহলে এতে আমাদের কিছু করার নেই😓</p>
+
+    <h2>পেমেন্ট নাম্বার: বিকাশ অথবা নগদ - <br> 01712506679</h2>
+
+    <h2>🥰আগে টাকা প্রদান করুন তারপর অর্ডার করুন🥰</h2>
+
+    <h2>🔥 ডায়মন্ড রেট লিস্ট 🔥</h2>
+    <ul class="rate-list">
+      <li onclick="selectRate(this, 'developer=Munna vai YT')">developer=Munna vai YT</li>
+      <li onclick="selectRate(this, 160)">🎟️ Level Up Pass - 163 TK</li>
+      <li onclick="selectRate(this, 157)">📅 Weekly - 160 TK</li>
+      <li onclick="selectRate(this, 24)">💎 25 Diamond - 25 TK</li>
+      <li onclick="selectRate(this, 42)">💎 50 Diamond - 45 TK</li>
+      <li onclick="selectRate(this, 80)">💎 115 Diamond - 82 TK</li>
+      <li onclick="selectRate(this, 162)">💎 240 Diamond - 165 TK</li>
+      <li onclick="selectRate(this, 238)">💎 355 Diamond - 241 TK</li>
+      <li onclick="selectRate(this, 316)">💎 480 Diamond - 320 TK</li>
+      <li onclick="selectRate(this, 350)">💎 505 Diamond - 355 TK</li>
+      <li onclick="selectRate(this, 420)">💎 610 Diamond - 423 TK</li>
+      <li onclick="selectRate(this, 560)">💎 850 Diamond - 565 TK</li>
+      <li onclick="selectRate(this, 715)">💎 1090 Diamond - 720 TK</li>
+      <li onclick="selectRate(this, 820)">💎 1240 Diamond - 825 TK</li>
+      <li onclick="selectRate(this, 1110)">💎 1720 Diamond - 1115 TK</li>
+      <li onclick="selectRate(this, 1353)">💎 2090 Diamond - 1355 TK</li>
+      <li onclick="selectRate(this, 1600)">💎 2530 Diamond - 1605 TK</li>
+      <li onclick="selectRate(this, 2550)">💎 4010 Diamond - 2555 TK</li>
+      <li onclick="selectRate(this, 3200)">💎 5060 Diamond - 3205 TK</li>
+      <li onclick="selectRate(this, 6400)">💎 10120 Diamond - 6405 TK</li>
+      <li onclick="selectRate(this, 45)">📅 Weekly Lite - 50 TK</li>
+      <li onclick="selectRate(this, 790)">📅 Monthly - 800 TK</li>
+    </ul>
+
+    <div class="form-section">
+      <h3>পেমেন্ট ফর্ম</h3>
+      <form id="paymentForm">
+        <label for="paymentMethod">💸পেমেন্ট মেথড💸</label>
+        <select id="paymentMethod">
+          <option value="বিকাশ">বিকাশ</option>
+          <option value="নগদ">নগদ</option>
+        </select>
+
+        <label for="paymentNumber">📠পেমেন্ট নাম্বার📠</label>
+        <input type="text" id="paymentNumber" placeholder="যে নাম্বার থেকে টাকা পাঠিয়েছেন সে নাম্বার দিন" required />
+
+        <label for="verificationId">🧾ভেরিফিকেশন আইডি🧾</label>
+        <input type="text" id="verificationId" placeholder="ভেরিফিকেশন আইডি দিন" required />
+
+        <label for="uid">⌨️ইউআইডি⌨️</label>
+        <input type="text" id="uid" placeholder="ইউআইডি দিন" required />
+
+        <button type="button" onclick="submitPayment()">✅অর্ডার কনফার্ম✅</button>
+      </form>
+    </div>
+
+    <div class="footer">
+      <p>ভিডিও দেখতে ক্লিক করুন: 
+        <a href="https://youtu.be/EDq1vMj3p6E?si=PeGBuVOQ_eJQ2LJE">📱ডায়মন্ড টপ আপ ভিডিও📱</a>
+      </p>
+    </div>
+
+    <div class="social-media-links">
+      <p>আমার সোশ্যাল মিডিয়া:</p>
+      <a href="https://www.facebook.com/share/17h41dqbRS/?mibextid=qi2Omg">🔰ফেসবুক🔰</a>
+      <a href="https://youtube.com/@sniper_king_munna100?si=xLMv0wCIBv__vOzl">🔰ইউটিউব🔰</a>
+      <a href="https://www.tiktok.com/@sniper_king_munna100">🔰টিকটক🔰</a>
+    </div>
+  </div>
+
+  <script>
+    var selectedRate = null;
+    function selectRate(item, rate) {
+      document.querySelectorAll('.rate-list li').forEach(li => li.classList.remove('selected'));
+      item.classList.add('selected');
+      selectedRate = rate;
+    }
+
+    function submitPayment() {
+      if (selectedRate === null) {
+        alert("ডায়মন্ড রেট নির্বাচন করুন");
+        return;
+      }
+      var method = document.getElementById("paymentMethod").value;
+      var number = document.getElementById("paymentNumber").value;
+      var id = document.getElementById("verificationId").value;
+      var uid = document.getElementById("uid").value;
+
+      var msg = `💸পেমেন্ট মেথড: ${method}\n📠নাম্বার: ${number}\n🧾ভেরিফিকেশন আইডি: ${id}\n⌨️ইউআইডি: ${uid}\n💎ডায়মন্ড প্যাক: ${selectedRate}`;
+      location.href = `https://wa.me/8801604677795?text=${encodeURIComponent(msg)}`;
+    }
+  </script>
+</body>
+</html>
