@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>SKM Messenger</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <style>
+    body { font-family: Arial; text-align: center; background: #f0f2f5; margin: 0; }
+    #login-btn { padding: 12px 25px; background: #1877f2; color: white; border: none; border-radius: 8px; cursor: pointer; margin-top: 50px; }
+    #profile-form, #chat-screen { display: none; padding: 20px; }
+    input, textarea { padding: 10px; margin: 5px; border-radius: 6px; border: 1px solid #ccc; width: 80%; }
+    #user-list div { margin: 5px; cursor: pointer; background: white; padding: 8px; border-radius: 6px; }
+    #messages { height: 300px; overflow-y: scroll; background: #fff; margin: 10px; padding: 10px; border-radius: 6px; }
+    .message { text-align: left; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h2>SKM Messenger</h2>
+  <button id="login-btn">Login with Gmail</button>
+
+  <div id="profile-form">
+    <h3>Setup Profile</h3>
+    <input id="username" placeholder="Unique Username" />
+    <input id="profile-pic" placeholder="Profile Picture URL" />
+    <button onclick="saveProfile()">Save</button>
+  </div>
+
+  <div id="chat-screen">
+    <input id="search-user" placeholder="Search by username..." oninput="searchUsers()" />
+    <div id="user-list"></div>
+    <hr>
+    <div id="messages"></div>
+    <textarea id="msg" placeholder="Type a message..."></textarea><br>
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAB15dFubeiWOtks-DuYdtX-xOTJjLi6oY",
+      authDomain: "massage-2313d.firebaseapp.com",
+      databaseURL: "https://massage-2313d-default-rtdb.firebaseio.com",
+      projectId: "massage-2313d",
+      storageBucket: "massage-2313d.firebasestorage.app",
+      messagingSenderId: "447274809569",
+      appId: "1:447274809569:web:c013ae05787be448115fa0"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    let currentUser = null;
+    let currentChatUser = null;
+
+    document.getElementById("login-btn").onclick = () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider).then(res => {
+        currentUser = res.user;
+        db.ref("users/" + currentUser.uid).once("value", snap => {
+          if (snap.exists()) {
+            startChat();
+          } else {
+            document.getElementById("login-btn").style.display = "none";
+            document.getElementById("profile-form").style.display = "block";
+          }
+        });
+      });
+    };
+
+    function saveProfile() {
+      const username = document.getElementById("username").value;
+      const profilePic = document.getElementById("profile-pic").value;
+      if (!username) return alert("Username required");
+      db.ref("usernames/" + username).once("value", snap => {
+        if (snap.exists()) {
+          alert("Username taken");
+        } else {
+          db.ref("usernames/" + username).set(currentUser.uid);
+          db.ref("users/" + currentUser.uid).set({
+            name: currentUser.displayName,
+            email: currentUser.email,
+            username: username,
+            profile: profilePic
+          });
+          startChat();
+        }
+      });
+    }
+
+    function startChat() {
+      document.getElementById("profile-form").style.display = "none";
+      document.getElementById("chat-screen").style.display = "block";
+    }
+
+    function searchUsers() {
+      const search = document.getElementById("search-user").value;
+      db.ref("users").once("value", snap => {
+        const list = document.getElementById("user-list");
+        list.innerHTML = "";
+        snap.forEach(child => {
+          const user = child.val();
+          if (user.username.includes(search) && child.key !== currentUser.uid) {
+            const div = document.createElement("div");
+            div.innerHTML = `<b>${user.username}</b><br><img src="${user.profile}" width="40" height="40"/>`;
+            div.onclick = () => openChat(child.key, user);
+            list.appendChild(div);
+          }
+        });
+      });
+    }
+
+    function openChat(uid, user) {
+      currentChatUser = uid;
+      document.getElementById("messages").innerHTML = "";
+      db.ref("messages/" + getChatId(currentUser.uid, uid)).on("child_added", snap => {
+        const msg = snap.val();
+        const div = document.createElement("div");
+        div.className = "message";
+        div.innerText = msg.sender + ": " + msg.text;
+        document.getElementById("messages").appendChild(div);
+      });
+    }
+
+    function sendMessage() {
+      const text = document.getElementById("msg").value;
+      if (!text || !currentChatUser) return;
+      const chatId = getChatId(currentUser.uid, currentChatUser);
+      db.ref("messages/" + chatId).push({
+        sender: currentUser.email,
+        text: text
+      });
+      document.getElementById("msg").value = "";
+    }
+
+    function getChatId(uid1, uid2) {
+      return uid1 < uid2 ? uid1 + "_" + uid2 : uid2 + "_" + uid1;
+    }
+  </script>
+</body>
+</html>
